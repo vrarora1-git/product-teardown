@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fafaf7">
+<title>GoodScore · A Product Read by Varun Arora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#fafaf7;
+    --paper-2:#f3f1ea;
+    --ink:#1a1a1a;
+    --ink-soft:#3a3a38;
+    --ink-mute:#76746e;
+    --rule:#d9d6cd;
+    --accent:#1f4d3a;        /* deep forest — fintech, serious */
+    --accent-soft:#e6efe9;
+    --amber:#a86b1e;         /* underline / flag */
+    --red:#8b2a2a;           /* leak / risk */
+    --gold:#b8862b;          /* under-the-surface */
+    --shadow: 0 1px 0 rgba(0,0,0,.04), 0 12px 32px -16px rgba(20,20,20,.18);
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-weight:400;
+    font-size:16px;
+    line-height:1.6;
+    letter-spacing:-0.005em;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .shell{
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 22px 120px;
+  }
+  @media (min-width: 768px){
+    .shell{ padding: 0 40px 80px; }
+  }
+
+  /* ---------- COVER ---------- */
+  .cover{
+    padding: 56px 0 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;height:1px;background:var(--ink-mute);
+  }
+  h1.cover-title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: clamp(34px, 7.5vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    margin: 18px 0 18px;
+    color:var(--ink);
+  }
+  h1.cover-title em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--accent);
+  }
+  .cover-sub{
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 580px;
+    margin: 0 0 24px;
+  }
+  .cover-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 18px 28px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-mute);
+    letter-spacing:0.04em;
+  }
+  .cover-meta span strong{
+    display:block;
+    color:var(--ink);
+    font-weight:500;
+    font-family:var(--body);
+    font-size:13px;
+    margin-top:2px;
+    letter-spacing:0;
+  }
+
+  /* ---------- TABS ---------- */
+  .tabs{
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 30;
+    border-bottom: 1px solid var(--rule);
+    margin: 0 -22px;
+    padding: 0 22px;
+  }
+  @media (min-width: 768px){
+    .tabs{ margin: 0 -40px; padding: 0 40px;}
+  }
+  .tabs-inner{
+    display:flex;
+    gap: 0;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tabs-inner::-webkit-scrollbar{display:none}
+  .tab{
+    background:none;
+    border:none;
+    padding: 18px 0;
+    margin-right: 26px;
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-mute);
+    cursor:pointer;
+    white-space:nowrap;
+    position:relative;
+    letter-spacing: 0.01em;
+    transition: color .2s ease;
+    flex-shrink:0;
+  }
+  .tab:last-child{margin-right:0}
+  .tab .num{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--ink-mute);
+    margin-right:8px;
+    opacity:.7;
+  }
+  .tab:hover{color:var(--ink-soft)}
+  .tab.active{color:var(--ink)}
+  .tab.active::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:-1px;
+    height:2px;
+    background:var(--accent);
+  }
+  .tab.active .num{color:var(--accent); opacity:1}
+
+  /* ---------- PANELS ---------- */
+  .panel{
+    display:none;
+    padding-top: 42px;
+    animation: fade .4s ease both;
+  }
+  .panel.active{display:block}
+  @keyframes fade{
+    from{opacity:0; transform: translateY(6px)}
+    to{opacity:1; transform: translateY(0)}
+  }
+
+  .section-head{
+    margin-bottom: 28px;
+  }
+  .section-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom: 12px;
+  }
+  h2.section-title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: clamp(28px, 5.5vw, 38px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    color:var(--ink);
+  }
+  h2.section-title em{
+    font-style:italic;
+    font-weight:300;
+  }
+  .section-lede{
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 0 8px;
+  }
+
+  /* ---------- PROSE ---------- */
+  .prose p{
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+  .prose p strong{color:var(--ink); font-weight:500}
+  .prose h3{
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 36px 0 12px;
+  }
+  .prose h3 .h-num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-mute);
+    margin-right:10px;
+    font-weight:400;
+    vertical-align: 3px;
+  }
+  .prose ul{
+    padding-left: 0;
+    list-style:none;
+    margin: 14px 0 20px;
+  }
+  .prose ul li{
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    padding-left: 18px;
+    margin-bottom: 10px;
+    position:relative;
+  }
+  .prose ul li::before{
+    content:"";
+    position:absolute;
+    left:0; top:11px;
+    width:6px; height:1px;
+    background:var(--ink-mute);
+  }
+
+  /* ---------- CALLOUTS ---------- */
+  .callout{
+    background: var(--paper-2);
+    border-left: 2px solid var(--accent);
+    padding: 18px 20px;
+    margin: 22px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.gold{border-left-color:var(--gold); background: #faf3e2}
+  .callout.red{border-left-color:var(--red); background: #f7eaea}
+  .callout .c-label{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom: 8px;
+    font-weight:500;
+  }
+  .callout.gold .c-label{color:var(--gold)}
+  .callout.red .c-label{color:var(--red)}
+  .callout p{
+    margin:0;
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--ink-soft);
+  }
+  .callout p + p{margin-top:10px}
+  .callout strong{color:var(--ink)}
+
+  /* ---------- CARDS / GRID ---------- */
+  .grid{display:grid; gap:14px}
+  .grid.cols-2{grid-template-columns: 1fr}
+  @media (min-width: 700px){
+    .grid.cols-2{grid-template-columns: 1fr 1fr}
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .card .card-num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--accent);
+    letter-spacing:0.1em;
+    margin-bottom:8px;
+  }
+  .card h4{
+    font-family:var(--display);
+    font-weight:500;
+    font-size: 18px;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .card p{
+    font-size:14px;
+    line-height:1.6;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .card .tag{
+    display:inline-block;
+    margin-top:12px;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    color: var(--ink-mute);
+    text-transform:uppercase;
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+    width:100%;
+  }
+
+  /* ---------- PROBLEM ROW ---------- */
+  .row{
+    display:flex;
+    gap: 16px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .row:first-of-type{border-top: 1px solid var(--rule)}
+  .row .row-num{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:300;
+    font-size: 32px;
+    color: var(--accent);
+    flex-shrink:0;
+    width: 48px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .row .row-body{flex:1; min-width:0}
+  .row h4{
+    font-family:var(--display);
+    font-weight:500;
+    font-size: 19px;
+    line-height: 1.3;
+    margin: 0 0 8px;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .row p{
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .row .row-evidence{
+    font-family:var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    background: var(--paper-2);
+    padding: 8px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+  .row .row-evidence strong{color:var(--ink); font-weight:500}
+
+  /* ---------- LEAKS (gaps tab) ---------- */
+  .leak{
+    border:1px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 14px;
+    background:#fff;
+  }
+  .leak-header{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .leak-pill{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.12em;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background: var(--red);
+    color:#fff;
+    text-transform:uppercase;
+    flex-shrink:0;
+  }
+  .leak-pill.med{background:var(--amber)}
+  .leak h4{
+    font-family:var(--display);
+    font-weight:500;
+    font-size: 19px;
+    line-height: 1.25;
+    margin: 0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .leak .what, .leak .fix{
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+  }
+  .leak .label{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.1em;
+    color: var(--accent);
+    text-transform:uppercase;
+    margin-right: 6px;
+    font-weight:500;
+  }
+
+  /* ---------- PLAN (90-day) ---------- */
+  .phase{
+    display:flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .phase:last-child{border-bottom:none}
+  .phase-marker{
+    flex-shrink:0;
+    width: 90px;
+  }
+  .phase-marker .days{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:300;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .phase-marker .days-sub{
+    font-family:var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color:var(--ink-mute);
+    text-transform:uppercase;
+    margin-top: 4px;
+  }
+  .phase-body{flex:1; min-width:0}
+  .phase-body h4{
+    font-family:var(--display);
+    font-weight:500;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  .phase-body p{
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+  .phase-list{
+    list-style:none;
+    padding:0;
+    margin: 8px 0 0;
+  }
+  .phase-list li{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--rule);
+    display:flex;
+    gap: 10px;
+  }
+  .phase-list li:last-child{border-bottom:none}
+  .phase-list li .p-tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.08em;
+    color: var(--ink-mute);
+    text-transform:uppercase;
+    flex-shrink:0;
+    width: 56px;
+    padding-top: 2px;
+  }
+  .phase-list li .p-text strong{color:var(--ink); font-weight:500}
+
+  /* ---------- WHY ME ---------- */
+  .credentials{
+    margin-top: 26px;
+  }
+  .cred-row{
+    display:flex;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cred-row:last-child{border-bottom:none}
+  .cred-metric{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: 28px;
+    color: var(--accent);
+    line-height:1.1;
+    flex-shrink:0;
+    width: 110px;
+    letter-spacing:-0.02em;
+  }
+  .cred-metric em{font-style:italic; font-weight:300}
+  .cred-body h5{
+    font-family:var(--body);
+    font-weight:500;
+    font-size: 14px;
+    margin: 0 0 4px;
+    color: var(--ink);
+    letter-spacing:0.01em;
+  }
+  .cred-body p{
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .cred-body .cred-co{
+    font-family:var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 4px;
+  }
+
+  /* ---------- DIALOG / END NOTE ---------- */
+  .closer{
+    margin-top: 48px;
+    padding: 28px 24px;
+    background: var(--accent);
+    color: #f3efe4;
+    border-radius: 10px;
+  }
+  .closer .c-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    color:#c9d6cf;
+    text-transform:uppercase;
+    margin-bottom: 12px;
+  }
+  .closer h3{
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(22px, 4.5vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px;
+    color: #fff;
+  }
+  .closer h3 em{font-style:italic; font-weight:300; color:#d4c4a0}
+  .closer p{
+    font-size: 15px;
+    line-height: 1.65;
+    color: #d6dbd5;
+    margin: 0 0 8px;
+  }
+  .closer .sig{
+    font-family:var(--display);
+    font-style:italic;
+    font-weight:300;
+    font-size: 18px;
+    color:#d4c4a0;
+    margin-top: 18px;
+  }
+
+  /* ---------- TABLE (read tab) ---------- */
+  .table-wrap{overflow-x:auto; margin: 20px 0; border:1px solid var(--rule); border-radius: 8px;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  th,td{
+    text-align:left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  th{
+    background: var(--paper-2);
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  td:first-child{
+    font-family:var(--mono);
+    font-size:12px;
+    color: var(--ink);
+    white-space:nowrap;
+  }
+  tr:last-child td{border-bottom:none}
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    margin-top: 56px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+    font-family:var(--mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+  .footer a{color:var(--ink-soft); text-decoration: underline; text-underline-offset: 2px}
+
+  /* ---------- MOBILE TUNING ---------- */
+  @media (max-width: 520px){
+    .cover{padding-top: 36px}
+    .row{gap: 12px}
+    .row .row-num{font-size: 26px; width: 38px}
+    .phase{gap: 14px; padding: 20px 0}
+    .phase-marker{width: 72px}
+    .phase-marker .days{font-size: 24px}
+    .cred-row{gap: 14px}
+    .cred-metric{width: 92px; font-size: 24px}
+    .closer{padding: 22px 20px}
+    .tab{font-size: 12.5px; padding: 16px 0; margin-right: 22px}
+  }
+
+  /* ---------- PRINT (just in case) ---------- */
+  @media print{
+    .tabs{display:none}
+    .panel{display:block !important; page-break-after: always}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ============== COVER ============== -->
+  <header class="cover">
+    <div class="eyebrow">Product Read · Director PM Candidacy</div>
+    <h1 class="cover-title">A close read of GoodScore — <em>and the playbook to fix the leaks.</em></h1>
+    <p class="cover-sub">I paid for the product. I read the bureau filings. I walked the funnel. This is what I found, and the exact 90 days I'd run on Day One — written for Sanchit, Rakshit, and the team building Arthvit.</p>
+    <div class="cover-meta">
+      <span>Prepared by<strong>Varun Arora</strong></span>
+      <span>For<strong>GoodScore · Arthvit 1809 Tech</strong></span>
+      <span>Role<strong>Director, Product Management</strong></span>
+      <span>Format<strong>5-section product memo</strong></span>
+    </div>
+  </header>
+
+  <!-- ============== TABS ============== -->
+  <nav class="tabs" role="tablist" aria-label="Pitch sections">
+    <div class="tabs-inner">
+      <button class="tab active" data-tab="read" id="tab-read" role="tab" aria-selected="true" aria-controls="panel-read" tabindex="0"><span class="num">01</span>The Read</button>
+      <button class="tab" data-tab="problems" id="tab-problems" role="tab" aria-selected="false" aria-controls="panel-problems" tabindex="-1"><span class="num">02</span>Customer Problems</button>
+      <button class="tab" data-tab="gaps" id="tab-gaps" role="tab" aria-selected="false" aria-controls="panel-gaps" tabindex="-1"><span class="num">03</span>Gaps &amp; Leaks</button>
+      <button class="tab" data-tab="playbook" id="tab-playbook" role="tab" aria-selected="false" aria-controls="panel-playbook" tabindex="-1"><span class="num">04</span>The Playbook</button>
+      <button class="tab" data-tab="whyme" id="tab-whyme" role="tab" aria-selected="false" aria-controls="panel-whyme" tabindex="-1"><span class="num">05</span>Why Me</button>
+    </div>
+  </nav>
+
+  <!-- ============== PANEL 01: THE READ ============== -->
+  <section class="panel active" id="panel-read" role="tabpanel" aria-labelledby="tab-read">
+    <div class="section-head">
+      <div class="section-eyebrow">01 · The Read</div>
+      <h2 class="section-title">What GoodScore <em>actually</em> is.</h2>
+      <p class="section-lede">A score app on the surface. A secured-card acquisition funnel underneath. Once you see it this way, every other product decision starts to make sense — and the ones that don't, become the opportunity.</p>
+    </div>
+
+    <div class="prose">
+      <p>GoodScore is the consumer-facing layer of <strong>Arthvit 1809 Tech</strong>, the same company that operates <strong>Rupicard</strong> — an FD-backed RuPay credit card where users park a deposit (from ₹5,000) and get a credit limit at ~90% of it. The score app is top-of-funnel. The card is where the money is made.</p>
+
+      <p>That framing changes everything: feature priorities, growth metrics, what "success" looks like for the PM owning this. The score app's job isn't to be the best score app. Its job is to convert a curious, anxious, thin-file user into a secured-card holder — and then into a graduated, unsecured borrower.</p>
+
+      <div class="callout">
+        <div class="c-label">The single most important sentence in this memo</div>
+        <p><strong>GoodScore is not a credit-score business. It is a customer-acquisition engine for a secured-lending business.</strong> Every product gap I flag in Section 3 makes sense only if you see the app this way — and the playbook in Section 4 is built around fixing this funnel, not adding score features.</p>
+      </div>
+
+      <h3><span class="h-num">1.1</span>The numbers I built my read on</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Signal</th><th>What it tells us</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>5Cr+ users</td><td>Distribution is solved. Top-of-funnel is not the bottleneck.</td></tr>
+            <tr><td>~2M downloads/mo</td><td>Heavy acquisition spend. The funnel is being fed faster than it's being converted.</td></tr>
+            <tr><td>4.7★ on 518K reviews</td><td>Headline strong; underlying sentiment in 1-star tail tells a different story (Section 2).</td></tr>
+            <tr><td>~$15.5M raised across 2 rounds</td><td>Series A closed Oct 2025 (Peak XV led, Stellaris participated). Capital is patient but not infinite.</td></tr>
+            <tr><td>₹2.5Cr revenue / ₹7Cr loss (FY24)</td><td>Burn is ~2.8× revenue. Path to profitability runs through lending cross-sell, not subscription scale.</td></tr>
+            <tr><td>Experian + CRIF only</td><td>No CIBIL. This is a credibility ceiling for the score promise (Section 2).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3><span class="h-num">1.2</span>The under-the-surface truth</h3>
+      <div class="callout gold">
+        <div class="c-label">Lesser known · pattern recognition</div>
+        <p><strong>The SMS permission is the real product.</strong> GoodScore takes full SMS access via a foreground service. Combined with its Axis Bank TPAP UPI authorisation and CKYC/GST data permissions, the app collects far more than a score app needs. The thin-file NTC user is being assembled into an alternative-data underwriting profile in real time. The score is the consent.</p>
+        <p>This is fine — it's smart, actually. But it means the moat isn't the score; it's the <strong>behavioural dataset</strong>. The product roadmap should be optimised to deepen that dataset, not to gloss the score screen.</p>
+      </div>
+
+      <h3><span class="h-num">1.3</span>The competitive read in one line each</h3>
+      <ul>
+        <li><strong>OneScore (FPL Tech, OneCard) —</strong> bank-grade trust, free-tier strong, weak conversion to monetisation. Their funnel is the inverse of GoodScore's: under-monetised reach.</li>
+        <li><strong>Paisabazaar / BankBazaar —</strong> marketplace lead-gen plays. Score is a hook to sell loans. Different unit economics, same end state.</li>
+        <li><strong>CRED —</strong> not actually a competitor for NTC. CRED is for prime users. The bottom 60% of India by score is GoodScore's TAM and CRED doesn't want them.</li>
+        <li><strong>Oolka —</strong> AI-first credit companion, well-designed but small. Real threat is the design quality, not the distribution.</li>
+        <li><strong>OneCard, Slice, Uni (where alive) —</strong> the prime-card players. The graduation destination for a successful Rupicard customer is one of them. Either you build that next step in-house or you lose the customer at the moment of greatest LTV.</li>
+      </ul>
+    </div>
+
+    <div class="closer" style="margin-top:36px">
+      <div class="c-eyebrow">Read this before turning the page</div>
+      <h3>If you take one thing from Section 1: <em>the score app is not the product.</em></h3>
+      <p>It's the consent screen, the trust builder, and the first touch in a credit-graduation ladder. The next three sections are about why that ladder is leaking, and how I'd patch it in the first 90 days.</p>
+    </div>
+  </section>
+
+  <!-- ============== PANEL 02: CUSTOMER PROBLEMS ============== -->
+  <section class="panel" id="panel-problems" role="tabpanel" aria-labelledby="tab-problems">
+    <div class="section-head">
+      <div class="section-eyebrow">02 · Customer Problems</div>
+      <h2 class="section-title">What users are actually saying — <em>once you read past the 4.7★.</em></h2>
+      <p class="section-lede">A 4.7-star app with a heavy review-solicitation loop hides its own data. I read the 1- and 2-star tail carefully. Three patterns repeat — and they're load-bearing for the business, not cosmetic.</p>
+    </div>
+
+    <div class="row">
+      <div class="row-num">01</div>
+      <div class="row-body">
+        <h4>The forced-autopay trap.</h4>
+        <p>Users sign up expecting a free score check, land directly on a paywall (₹84 + GST/month with a 12-hour countdown), and discover post-payment that they've authorised a recurring autopay mandate. The refund policy is non-refundable, non-prorated. Every service failure becomes a grievance that customer support absorbs.</p>
+        <div class="row-evidence"><strong>Pattern in reviews:</strong> "waste of money, it's paid subscription and Autopay is compulsory" · "they call me next day… so I edit my review" — the cycle of bait → frustration → support save → forced positive review repeats consistently across hundreds of 1-star reviews.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">02</div>
+      <div class="row-body">
+        <h4>The Credit Expert promise that doesn't scale.</h4>
+        <p>The premium tier sells a human credit expert who calls you back, helps with disputes, and gives personalised guidance. The recurring failure is the callback never happening — or happening once, then never again. The highest-value paid feature is the most operationally fragile, because it depends on a human layer that doesn't scale at the rate the funnel feeds it.</p>
+        <div class="row-evidence"><strong>What this tells us:</strong> the service promise is set by marketing, sized by ops, and broken by physics. This is a roadmap problem, not a training problem.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">03</div>
+      <div class="row-body">
+        <h4>The score credibility gap.</h4>
+        <p>GoodScore shows Experian + CRIF. Users in India check CIBIL when banks evaluate them. Reviewers note their GoodScore number reads materially lower than the CIBIL number they see elsewhere — which makes the "increase to 750+" promise feel manufactured. The entire premium pitch sits on a number the user doesn't trust as their "real" score.</p>
+        <div class="row-evidence"><strong>Pattern in reviews:</strong> "the value given in the Credit Score Section is much minimized than from the actual value present in the CIBIL SCORE REPORT" — and this surfaces in the 2- and 3-star bracket, where reviewers like the app but distrust the headline number.</div>
+      </div>
+    </div>
+
+    <div class="callout red" style="margin-top:32px">
+      <div class="c-label">My own walkthrough · iOS, paid user</div>
+      <p>I bought the subscription to see the post-paywall product. Five things stood out — all of them fixable, none of them currently fixed:</p>
+      <p><strong>1.</strong> No login/sign-up before the paywall. The pitch isn't earned; the friction is. <strong>2.</strong> The pre-payment pitch isn't convincing — it sells features, not the outcome the user came for. <strong>3.</strong> Post-payment, the experience is identical across score bands. A user with a 480 score, a user with a 680 score, and a user with no bureau record get the same flow with different numbers swapped in. <strong>4.</strong> The downloadable PDF report is functionally what CRIF gives you free — there's no insight layer that justifies the premium. <strong>5.</strong> The "5-step plan" is the same plan for everyone.</p>
+      <p>Translation: <strong>the product stops thinking about the user the moment they pay.</strong> That is the single most expensive problem in the funnel, because it's where churn is born.</p>
+    </div>
+  </section>
+
+  <!-- ============== PANEL 03: GAPS & LEAKS ============== -->
+  <section class="panel" id="panel-gaps" role="tabpanel" aria-labelledby="tab-gaps">
+    <div class="section-head">
+      <div class="section-eyebrow">03 · Gaps &amp; Leaks</div>
+      <h2 class="section-title">Six leaks in the machine, <em>ranked by what they cost.</em></h2>
+      <p class="section-lede">Some of these are product. Some are business model. All of them are fixable in a quarter or two. I've ordered them by impact on the unit economics — not by how visible they are on the surface.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill">Leak 01 · Highest cost</span>
+      </div>
+      <h4>The post-paywall product doesn't earn the price.</h4>
+      <p class="what"><span class="label">What's broken</span>Same experience across all score bands. Same plan, same nudges, same PDF. A user who paid ₹99 to "improve" their 720 score gets the same advice as a user with no bureau record. Premium feels like a paywall with cosmetic differences.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Build four distinct post-paywall journeys: NTC/thin-file, sub-prime (300–500), mid-prime (500–700), prime (700+). Each band gets its own next-best-action, its own coaching script, its own product offer. This isn't personalisation as a feature — it's the entire reason the user paid.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill">Leak 02</span>
+      </div>
+      <h4>Acquisition spend isn't graduating into Rupicard fast enough.</h4>
+      <p class="what"><span class="label">What's broken</span>The score app feeds the funnel; Rupicard is the monetisation. But the bridge between the two — the trigger, the offer, the moment of conversion — is currently a static banner. Most score users never get a band-appropriate, behaviourally-timed card offer.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Build the score → card conversion as a designed flow, not a banner. Three triggers: (a) NTC user completes second monthly score check → FD card offer with ₹5K minimum; (b) sub-prime user makes an on-time bill payment → "you're 60 days from card eligibility" nudge; (c) score-drop event → "secure your credit history" card pitch. This is the exact ladder I built at MobiKwik.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill">Leak 03</span>
+      </div>
+      <h4>No CIBIL is a credibility ceiling.</h4>
+      <p class="what"><span class="label">What's broken</span>Experian + CRIF only. The user's lived experience is that CIBIL is "the" score. Until the app shows CIBIL alongside, every dispute about "my real score is higher" is a churn risk.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Either (a) integrate CIBIL — the commercial conversation is hard but solvable, or (b) lean into bureau diversification as the feature: "Why one score isn't enough" content + side-by-side compare. Option (b) buys time, option (a) wins the war. Run (b) now, negotiate (a) in parallel.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill">Leak 04</span>
+      </div>
+      <h4>The paywall screen is leaking trust faster than conversions.</h4>
+      <p class="what"><span class="label">What's broken</span>Countdown timer, struck-through ₹199, "Limited Offer applied," forced autopay, no visible total cost, no trust marks (bureau logos, RBI, user count) — all on the highest-stakes screen for a low-financial-literacy user. The screen optimises for first payment over retained user.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Rebuild the paywall: honest price strip ("₹99/mo incl. GST · cancel anytime"), trust band under the CTA (Experian + CRIF + RBI-authorised + 5Cr users), value ladder reordered to lead with the fear-resolution job (fraud disputes), remove the countdown. I'd run this as an A/B against the current screen — my prior is the honest version converts equal or better, and the retention curve improves by 200–400 bps.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill med">Leak 05</span>
+      </div>
+      <h4>The Credit Expert chat is the wrong physics.</h4>
+      <p class="what"><span class="label">What's broken</span>Human callbacks at the scale of 5Cr users and millions of paid subscribers don't work. The best users get served. The rest churn quietly.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Re-architect "Credit Expert" as AI-first, human-escalated. Tier 1: an AI coach trained on the user's actual bureau data — answers 80% of questions in seconds. Tier 2: human dispute specialist for the 20% where it matters (genuinely fraudulent accounts, complex bureau errors). This is also the right shape for unit economics: the cost-per-resolution drops by an order of magnitude while the experience improves.</p>
+    </div>
+
+    <div class="leak">
+      <div class="leak-header">
+        <span class="leak-pill med">Leak 06</span>
+      </div>
+      <h4>The PDF is a missed opportunity.</h4>
+      <p class="what"><span class="label">What's broken</span>The downloadable credit report is essentially what the bureau gives the user for free if they ask. There's no GoodScore layer of insight, score forecast, action plan, or shareability for loan applications.</p>
+      <p class="fix"><span class="label">How I'd fix it</span>Turn the PDF into a GoodScore-branded "Credit Health Card" — bureau data + score simulator output + 90-day action plan + a sharable summary the user can hand to a lender. Becomes a viral artefact and a real reason to renew. Low engineering effort, high differentiation.</p>
+    </div>
+
+    <div class="callout" style="margin-top: 28px">
+      <div class="c-label">Pattern</div>
+      <p>Five of these six leaks share one root cause: <strong>the product is designed for the first payment, not the second.</strong> Fix the second-payment experience and you change the unit economics without touching acquisition spend. That's the thesis of Section 4.</p>
+    </div>
+  </section>
+
+  <!-- ============== PANEL 04: 90-DAY PLAYBOOK ============== -->
+  <section class="panel" id="panel-playbook" role="tabpanel" aria-labelledby="tab-playbook">
+    <div class="section-head">
+      <div class="section-eyebrow">04 · The Playbook</div>
+      <h2 class="section-title">What I'd ship in the first quarter — <em>and the two years it sets up.</em></h2>
+      <p class="section-lede">Three Q1 phases, each with one headline outcome. Then a near-term and long-term horizon to show where this leads. No phase touches the acquisition machine; the entire plan converts paid users into retained, graduating ones.</p>
+    </div>
+
+    <div class="phase">
+      <div class="phase-marker">
+        <div class="days">Days 1–30</div>
+        <div class="days-sub">See &amp; Stabilise</div>
+      </div>
+      <div class="phase-body">
+        <h4>Stop the trust bleed. Understand the funnel.</h4>
+        <p>Before adding anything, I want to know exactly where the funnel leaks and which users churn. Three ship-fast items, one deep-dive.</p>
+        <ul class="phase-list">
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Paywall honesty pass.</strong> Real total price visible. Trust band added (Experian + CRIF + RBI-authorised + 5Cr users). Countdown removed. A/B vs current. Hypothesis: equal or better conversion, +200–400 bps D30 retention — and it pre-empts the regulatory exposure (see callout below).</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Cancel-flow rebuild.</strong> One-tap cancel + reason capture + win-back offer. Cuts refund-grievance volume and gives us churn-reason data we don't currently have.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Login before paywall.</strong> Today the user pays before identifying themselves. This breaks bureau-data continuity, makes attribution impossible, and is the single biggest reason post-pay personalisation isn't shipping. Capture phone + consent first, then pitch — conversion will dip ~5–8%, retention will rise sharply.</span></li>
+          <li><span class="p-tag">Dig</span><span class="p-text"><strong>Cohort funnel teardown.</strong> Map conversion by score band, acquisition channel, and device. I expect we'll find one or two cohorts paying but never returning — that's where Phase 2 lands.</span></li>
+        </ul>
+
+        <div class="callout red" style="margin-top: 14px">
+          <div class="c-label">Regulatory pressure point — why Phase 1 can't wait</div>
+          <p>The current paywall (forced autopay + non-refundable + countdown timer + struck-through anchor price) sits in the exact zone the <strong>DPDP Act and RBI's digital-lending direction</strong> are tightening on for financial apps serving vulnerable segments. Fixing this in Days 1–30 isn't ethics, it's <strong>regulatory cover</strong>. I've operated inside RBI card and lending compliance for the last two years — I know where this line is.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-marker">
+        <div class="days">Days 31–60</div>
+        <div class="days-sub">Differentiate post-pay</div>
+      </div>
+      <div class="phase-body">
+        <h4>The product starts thinking about the user after they pay.</h4>
+        <p>The biggest leak is the identical post-pay experience. This phase fixes that, segment by segment, and makes the advice <em>executable inside the app</em> instead of being a video the user watches and then doesn't act on.</p>
+        <ul class="phase-list">
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Band-specific journeys (v1).</strong> Four distinct flows for NTC, sub-prime, mid-prime, prime. Different home screens, different next-best-actions, different coaching scripts. Personalisation as the product, not a feature.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>In-app execution loop.</strong> Today the advice lives in a video; the action lives somewhere else. I'd close the loop: "reduce utilisation" routes to bill-pay in-app, "clear overdue" routes to the EMI repayment flow, "raise a dispute" launches a guided bureau-dispute workflow. Execution stays inside the app — which means we see the outcome, not just the intent.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Score simulator.</strong> "If you repay ₹X early, your score will increase by Y points by [date]." Behavioural, sticky, gives every visit a reason. This is the daily-active hook.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>GoodScore Credit Health Card (PDF v2).</strong> Branded, shareable, actually useful at a lender — not the same data CRIF gives the user for free. Becomes a referral artefact and a renewal trigger.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-marker">
+        <div class="days">Days 61–90</div>
+        <div class="days-sub">Build the graduation rail</div>
+      </div>
+      <div class="phase-body">
+        <h4>Make Rupicard the obvious next step — not a banner.</h4>
+        <p>This is where the score app starts paying for itself by feeding the card. The bridge is the business — and this is the exact ladder I scaled to 20,000 cards / ₹150Cr FD book at MobiKwik.</p>
+        <ul class="phase-list">
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Score → Card conversion flow.</strong> Three behavioural triggers (NTC second-check, sub-prime on-time payment, score-drop event) each routed to a band-appropriate Rupicard offer. Not a banner. A flow.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>AI Credit Coach (v1).</strong> Tier-1 chat trained on the user's actual bureau data — resolves 70–80% of queries in seconds. The human "Credit Expert" tier survives, but only for the disputes and complex cases where it actually adds value. Cost-per-resolution drops by an order of magnitude; service-promise reliability rises.</span></li>
+          <li><span class="p-tag">Plan</span><span class="p-text"><strong>CIBIL commercial conversation begins.</strong> Even if it ships in Q2, signalling the path now closes the credibility gap in the narrative we tell users.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-marker">
+        <div class="days">Q2</div>
+        <div class="days-sub">Near term · 3–6 mo</div>
+      </div>
+      <div class="phase-body">
+        <h4>Goals replace tasks. The product becomes a co-pilot.</h4>
+        <p>Once the post-pay product is band-specific and the execution loop is closed, the next step is letting the user set the destination — and the product becoming the route to it.</p>
+        <ul class="phase-list">
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Goal-anchored plans.</strong> User declares a goal — "home loan in 6 months," "my first credit card," "lower my EMI" — and we generate a personalised plan with weekly milestones drawn from their actual bureau + transaction data. Every visit has a purpose. Every nudge has a reason. This is the move that turns a score-checker into a daily user.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>CIBIL live (target).</strong> Three-bureau view becomes default. Score-credibility leak (Leak 03) closes.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Graduation product v1.</strong> First unsecured offer to seasoned Rupicard holders — the bridge from secured-card to credit-line, modelled on what I built at MobiKwik (8L+ active users, ₹476Cr+ monthly throughput).</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-marker">
+        <div class="days">H2</div>
+        <div class="days-sub">Long term · 6–12 mo</div>
+      </div>
+      <div class="phase-body">
+        <h4>The moat: bank history alongside bureau data.</h4>
+        <p>This is where GoodScore stops being a credit-score app and starts being something no bureau-only competitor can replicate — and where the free tier earns the right to charge for premium.</p>
+        <ul class="phase-list">
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Account Aggregator integration.</strong> Bank history alongside bureau data — income, savings, EMI discipline, salary cadence. Advice sharpens by an order of magnitude. <em>No bureau-only player can replicate this</em>; it's the structural moat, and it directly deepens the alternative-data dataset I called out in Section 1.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Tiered subscription, earned.</strong> Free tier becomes trusted and sticky first; then premium follows — ₹79/mo (basic monitoring), ₹149/mo (full profile + simulator), ₹249/mo (multi-bureau + credit expert on call). We charge because we've earned it, not because we trapped the user behind a paywall. This is the unit-economics fix.</span></li>
+          <li><span class="p-tag">Ship</span><span class="p-text"><strong>Behavioural credit index (v1).</strong> Merging AA + bureau data into a proprietary score GoodScore owns. This is the long-term defensibility play — the data product the company eventually sells back to lenders.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== WHAT SUCCESS LOOKS LIKE ===== -->
+    <div class="section-head" style="margin-top: 48px; margin-bottom: 18px">
+      <div class="section-eyebrow">04.1 · What success looks like</div>
+      <h2 class="section-title" style="font-size: clamp(22px, 4.5vw, 28px)">The numbers I'd be measured on.</h2>
+      <p class="section-lede">A Director PM should commit to numbers before joining. Here's what I'd own — chosen because each one moves the unit economics, not vanity metrics.</p>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="card-num">By Day 90</div>
+        <h4>D30 retention up 300–500 bps</h4>
+        <p>Honest paywall + cancel-flow + login-first will lift D30 paid retention measurably. This is the leading indicator that the funnel is no longer leaking trust.</p>
+        <div class="tag">Source · paywall + cancel rework</div>
+      </div>
+      <div class="card">
+        <div class="card-num">By Day 90</div>
+        <h4>Score → Card conversion at 2–3%</h4>
+        <p>Of score users in NTC/sub-prime bands who get a band-appropriate Rupicard offer, 2–3% should convert to FD card holders in 90 days. That's the bridge working.</p>
+        <div class="tag">Source · graduation rail · I've hit this at MBK</div>
+      </div>
+      <div class="card">
+        <div class="card-num">By Month 6</div>
+        <h4>Goal-anchored DAU/MAU 25%+</h4>
+        <p>Once goals replace tasks, score-checkers become daily users. 25% DAU/MAU within Q2 means the product has habit-loop status, not utility status.</p>
+        <div class="tag">Source · goal plans + simulator</div>
+      </div>
+      <div class="card">
+        <div class="card-num">By Month 12</div>
+        <h4>Path to break-even visible</h4>
+        <p>₹2.5Cr revenue / ₹7Cr loss flips toward unit-positive: graduation revenue from Rupicard exceeds subscription burn. The score app becomes a CAC-arbitrage engine for the card business.</p>
+        <div class="tag">Source · graduation rail + AA moat</div>
+      </div>
+    </div>
+
+    <!-- ===== WHAT I'D DEPRIORITISE ===== -->
+    <div class="callout gold" style="margin-top: 32px">
+      <div class="c-label">Equally important · what I'd <em>deprioritise</em></div>
+      <p>Senior PMs prove judgment by what they cut. Three things I'd <strong>not</strong> do in the first quarter:</p>
+      <p><strong>1. No score-engine rebuild.</strong> The bureau data is what it is. Spending engineering on a "better" score number is a vanity project. <strong>2. No home-screen redesign.</strong> The conversion problem is post-paywall, not pre-paywall. A redesign is the lazy answer. <strong>3. No new acquisition channels.</strong> Distribution is solved (5Cr users). Adding more inflow to a leaky bucket makes the unit economics worse, not better. <strong>The job is to fix what happens after they arrive.</strong></p>
+    </div>
+  </section>
+
+  <!-- ============== PANEL 05: WHY ME ============== -->
+  <section class="panel" id="panel-whyme" role="tabpanel" aria-labelledby="tab-whyme">
+    <div class="section-head">
+      <div class="section-eyebrow">05 · Why Me</div>
+      <h2 class="section-title">I've already run this playbook. <em>This is just the second time.</em></h2>
+      <p class="section-lede">The playbook in Section 4 isn't theoretical. Every block of it maps to something I've shipped and scaled at MobiKwik, Groww, or Paytm. Here are the four most relevant credentials, in business terms — not titles.</p>
+    </div>
+
+    <div class="credentials">
+
+      <div class="cred-row">
+        <div class="cred-metric">20K<em> cards</em></div>
+        <div class="cred-body">
+          <h5>I built and scaled the exact instrument Rupicard is — to a ₹150Cr FD book in 6 months.</h5>
+          <p>Launched, scaled, and now run a secured credit card on FDs with two bank partners (SBM + SSFB). Sourced <strong>20,000+ cards in 6 months</strong> with a <strong>cumulative FD book of ~₹150Cr</strong>, 75–82% transaction-active rate, and a growing top-up FD pattern. I have lived the unit economics, the partner-bank conversations, the bureau reporting cadence, and the NTC underwriting tradeoffs — at a scale that materially exceeds where Rupicard is today.</p>
+          <div class="cred-co">MobiKwik · Associate Director, Product</div>
+        </div>
+      </div>
+
+      <div class="cred-row">
+        <div class="cred-metric">3M<em> MAUs</em></div>
+        <div class="cred-body">
+          <h5>I scaled a Credit Score product from 1.2M to 3M MAUs — and used it as a lending funnel.</h5>
+          <p>The same problem GoodScore is solving: turning a score check into a behavioural product, and the score user into a credit customer. I did it with AI-led insights, behavioural scoring, and band-specific engagement nudges. The 4-band segmentation framework in Section 4 isn't borrowed from a textbook — it's the one I ran.</p>
+          <div class="cred-co">MobiKwik · Associate Director, Product</div>
+        </div>
+      </div>
+
+      <div class="cred-row">
+        <div class="cred-metric">8L+<em> users</em></div>
+        <div class="cred-body">
+          <h5>I conceptualised and launched a Spend-Now-Pay-Later wallet — the graduation product after the secured card.</h5>
+          <p>Took an unsecured credit line embedded in a payments app from zero to 8L+ active users and ₹476Cr+ monthly throughput, with positive MoM retention. The Rupicard → unsecured-graduation step that I'd build in Q2 at GoodScore is something I've already designed at scale.</p>
+          <div class="cred-co">MobiKwik · Associate Director, Product</div>
+        </div>
+      </div>
+
+      <div class="cred-row">
+        <div class="cred-metric">2M<em> users</em></div>
+        <div class="cred-body">
+          <h5>I built UPI infrastructure from scratch — multi-bank, 0% TPV failure, full-stack pivot.</h5>
+          <p>At Groww, I built the UPI rail as a single PM and used it to convert Groww from an investment app into a daily-engagement fintech. The TPAP / PSP / NPCI architecture GoodScore depends on for its UPI permissions — I've operated it end-to-end. If the SMS-permission and AA-data architecture is the moat I described in Section 1, I know exactly how to deepen it.</p>
+          <div class="cred-co">Groww · Product Lead</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="closer">
+      <div class="c-eyebrow">A note to Sanchit, Rakshit, and the founding team</div>
+      <h3>You've built distribution most fintechs would kill for. <em>The next 18 months are about converting that distribution into a graduation ladder — and that is the work I've done before.</em></h3>
+      <p>I'm not pitching a turnaround. The business is real and the asset is rare. What I'm offering is the boring, expensive judgment of someone who has already plugged these exact leaks at scale — and who reads your product the way a paying customer does, not the way an analyst does.</p>
+      <p>If this read is useful, the conversation I'd most like to have next is about your Q4 priorities, your post-Series-A conversion targets, and where you think the score-to-card bridge is widest. I've left my numbers below.</p>
+      <div class="sig">— Varun Arora</div>
+    </div>
+
+    <div class="footer">
+      <div>Varun Arora · <a href="mailto:vr.arora1@gmail.com">vr.arora1@gmail.com</a> · +91 90153 85396</div>
+      <div>LinkedIn: <a href="https://linkedin.com/in/vrarora1" target="_blank">linkedin.com/in/vrarora1</a> · X: <a href="https://x.com/vrarora1" target="_blank">x.com/vrarora1</a></div>
+      <div style="margin-top: 10px; opacity: .7">Prepared as an independent product read. All figures sourced from public filings (Tracxn, Entrackr), Google Play / App Store data, and a personal walkthrough of the live iOS application. MobiKwik metrics shared at the level publicly disclosed by the company or appropriate for candidate discussion.</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function(){
+    const tabs = document.querySelectorAll('.tab');
+    const panels = {
+      read: document.getElementById('panel-read'),
+      problems: document.getElementById('panel-problems'),
+      gaps: document.getElementById('panel-gaps'),
+      playbook: document.getElementById('panel-playbook'),
+      whyme: document.getElementById('panel-whyme')
+    };
+
+    function activate(name){
+      tabs.forEach(t => {
+        const on = t.dataset.tab === name;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.setAttribute('tabindex', on ? '0' : '-1');
+      });
+      Object.entries(panels).forEach(([k, el]) => {
+        el.classList.toggle('active', k === name);
+      });
+      // scroll panel into view on mobile (just below sticky tabs)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // remember
+      try { history.replaceState(null, '', '#' + name); } catch(e) {}
+    }
+
+    tabs.forEach(t => {
+      t.addEventListener('click', () => activate(t.dataset.tab));
+      t.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault();
+          const order = ['read','problems','gaps','playbook','whyme'];
+          const cur = order.indexOf(t.dataset.tab);
+          const next = e.key === 'ArrowRight'
+            ? (cur + 1) % order.length
+            : (cur - 1 + order.length) % order.length;
+          const targetTab = document.querySelector('.tab[data-tab="' + order[next] + '"]');
+          targetTab.focus();
+          activate(order[next]);
+        }
+      });
+    });
+
+    // open from hash if present
+    const hash = (location.hash || '').replace('#','');
+    if(panels[hash]) activate(hash);
+  })();
+</script>
+</body>
+</html>
