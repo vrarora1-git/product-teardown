@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oolka — Founder Teardown | July 2026</title>
+<style>
+:root{
+  --primary:#5645d4; --primary-pressed:#4534b3; --navy:#0a1530; --navy-mid:#1a2a52;
+  --orange:#dd5b00; --orange-deep:#793400; --green:#1aae39; --error:#e03131;
+  --peach:#ffe8d4; --rose:#fde0ec; --mint:#d9f3e1; --lavender:#e6e0f5; --sky:#dcecfa;
+  --yellow:#fef7d6; --yellow-bold:#f9e79f; --cream:#f8f5e8; --gray:#f0eeec;
+  --canvas:#ffffff; --surface:#f6f5f4; --hairline:#e5e3df; --hairline-strong:#c8c4be;
+  --ink:#1a1a1a; --charcoal:#37352f; --slate:#5d5b54; --steel:#787671; --stone:#a4a097;
+  --on-dark:#ffffff; --on-dark-muted:#a4a097; --purple-800:#391c57;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,system-ui,'Segoe UI',Helvetica,sans-serif;background:var(--canvas);color:var(--charcoal);font-size:16px;line-height:1.55}
+.hero{background:var(--navy);color:var(--on-dark);padding:56px 24px 48px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#ff64c8;top:38px;left:12%}
+.hero::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#f5d75e;top:70px;right:14%}
+.hero-inner{max-width:760px;margin:0 auto}
+.hero .kicker{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:14px}
+.hero h1{font-size:48px;font-weight:600;letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.hero .verdict{font-size:18px;line-height:1.5;color:#d4d9e6;max-width:640px}
+.hero .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.chip{display:inline-block;font-size:13px;font-weight:600;border-radius:9999px;padding:4px 12px}
+.chip.purple{background:var(--primary);color:#fff}
+.chip.outline{border:1px solid var(--on-dark-muted);color:var(--on-dark)}
+nav{position:sticky;top:0;background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:50;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-inner{max-width:760px;margin:0 auto;display:flex;gap:4px;padding:10px 16px;white-space:nowrap}
+.tab{font-size:14px;font-weight:500;color:var(--steel);background:transparent;border:1px solid var(--hairline);border-radius:9999px;padding:7px 14px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.tab.active{background:#000;color:#fff;border-color:#000}
+main{max-width:760px;margin:0 auto;padding:40px 20px 80px}
+.page{display:none}
+.page.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2{font-size:30px;font-weight:600;letter-spacing:-.5px;color:var(--ink);margin-bottom:8px}
+h3{font-size:20px;font-weight:600;color:var(--ink);margin:28px 0 10px}
+.lede{font-size:17px;color:var(--slate);margin-bottom:26px}
+p{margin-bottom:14px}
+.card{border-radius:12px;padding:22px 24px;margin-bottom:16px}
+.card.plain{background:var(--canvas);border:1px solid var(--hairline)}
+.card.peach{background:var(--peach)} .card.rose{background:var(--rose)} .card.mint{background:var(--mint)}
+.card.lavender{background:var(--lavender)} .card.sky{background:var(--sky)} .card.yellow{background:var(--yellow)}
+.card.yellow-bold{background:var(--yellow-bold)} .card.cream{background:var(--cream)} .card.gray{background:var(--gray)}
+.card h4{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:8px}
+.card p:last-child{margin-bottom:0}
+.badge-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.badge{font-size:12px;font-weight:600;border-radius:6px;padding:3px 9px;display:inline-block}
+.badge.impact-h{background:var(--primary);color:#fff}
+.badge.impact-m{background:var(--lavender);color:var(--purple-800)}
+.badge.conf-h{background:var(--mint);color:#0d7a26}
+.badge.conf-m{background:var(--peach);color:var(--orange-deep)}
+.badge.est{background:var(--peach);color:var(--orange-deep)}
+.badge.verified{background:var(--mint);color:#0d7a26}
+.badge.qw{background:var(--mint);color:#0d7a26}
+.badge.struct{background:var(--sky);color:#0b5394}
+sup a{color:var(--primary);text-decoration:none;font-weight:600;font-size:11px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0 24px}
+.stat{background:var(--surface);border-radius:12px;padding:16px 18px}
+.stat .n{font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.5px}
+.stat .l{font-size:13px;color:var(--steel);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0 22px;border:1px solid var(--hairline);border-radius:8px;overflow:hidden}
+th{text-align:left;background:var(--surface);padding:10px 14px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--hairline)}
+td{padding:10px 14px;border-bottom:1px solid var(--hairline);vertical-align:top}
+tr:last-child td{border-bottom:none}
+blockquote{border-left:3px solid var(--hairline-strong);padding:4px 0 4px 16px;color:var(--slate);font-size:15px;margin:12px 0 16px;font-style:italic}
+blockquote .who{display:block;font-style:normal;font-size:13px;color:var(--stone);margin-top:6px}
+.pitch-block{background:var(--navy);color:#e8ebf2;border-radius:12px;padding:26px 28px;font-size:15px;line-height:1.7;white-space:pre-wrap;font-family:inherit;margin:16px 0}
+.callout{background:var(--yellow-bold);border-radius:12px;padding:20px 24px;margin:20px 0;color:var(--charcoal)}
+.callout strong{color:var(--ink)}
+.src-item{padding:12px 0;border-bottom:1px solid var(--hairline);font-size:14px}
+.src-item .num{display:inline-block;min-width:26px;font-weight:600;color:var(--primary)}
+.src-item a{color:#0075de;text-decoration:none}
+.src-item .d{color:var(--stone);font-size:13px}
+.next-btn{display:inline-block;background:var(--primary);color:#fff;font-size:14px;font-weight:500;border:none;border-radius:8px;padding:11px 20px;cursor:pointer;margin-top:24px;font-family:inherit}
+.next-btn:active{background:var(--primary-pressed)}
+.footnote{font-size:13px;color:var(--stone);margin-top:24px}
+@media(max-width:600px){.hero h1{font-size:34px}h2{font-size:25px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">App Breakdown · Founder Lens · 16 July 2026</div>
+    <h1>Oolka</h1>
+    <p class="verdict">A well funded, fast growing AI credit companion whose biggest risk is not competition. It is the gap between what the agent promises and what paying users can see it actually do.</p>
+    <div class="meta-row">
+      <span class="chip purple">Founder / CEO lens</span>
+      <span class="chip outline">Deep dive · 11 sources</span>
+      <span class="chip outline">India · Consumer fintech</span>
+    </div>
+  </div>
+</header>
+
+<nav><div class="nav-inner">
+  <button class="tab active" data-page="p1">Start here</button>
+  <button class="tab" data-page="p2">Company</button>
+  <button class="tab" data-page="p3">App &amp; users</button>
+  <button class="tab" data-page="p4">Rules &amp; risk</button>
+  <button class="tab" data-page="p5">Hidden truths</button>
+  <button class="tab" data-page="p6">What to do</button>
+  <button class="tab" data-page="p7">The pitch</button>
+  <button class="tab" data-page="p8">Sources</button>
+</div></nav>
+
+<main>
+
+<!-- PAGE 1 -->
+<section class="page active" id="p1">
+  <h2>Start here</h2>
+  <p class="lede">If this is your first look at Oolka, this page gives you the whole picture in two minutes. Every claim links to a source on the last page.</p>
+
+  <div class="card sky">
+    <h4>What Oolka is</h4>
+    <p>A Bengaluru fintech (Sixdis Technologies, founded 2024) built by Utkrishta Kumar, former Chief Business Officer at Meesho.<sup><a href="#" data-goto="p8">1,2</a></sup> The app checks your credit score for free, then its AI agent "Dhruva" finds what is hurting the score and takes action on your behalf: flagging report errors, drafting disputes, reminding and paying EMIs, and recommending loans and cards from partner banks.<sup><a href="#" data-goto="p8">3,4</a></sup></p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="n">$21M</div><div class="l">Raised: $7M seed + $14M Series A (Accel, Apr 2026)<sup><a href="#" data-goto="p8">1,5</a></sup></div></div>
+    <div class="stat"><div class="n">₹730 Cr</div><div class="l">Post-money valuation, Apr 2026<sup><a href="#" data-goto="p8">1</a></sup></div></div>
+    <div class="stat"><div class="n">6M</div><div class="l">Registered users<sup><a href="#" data-goto="p8">1</a></sup></div></div>
+    <div class="stat"><div class="n">~$2.5M</div><div class="l">ARR, Apr 2026<sup><a href="#" data-goto="p8">1</a></sup></div></div>
+    <div class="stat"><div class="n">4.8★</div><div class="l">Play Store, 32.2K reviews<sup><a href="#" data-goto="p8">3</a></sup></div></div>
+    <div class="stat"><div class="n">14–36%</div><div class="l">APR on partner loans<sup><a href="#" data-goto="p8">3</a></sup></div></div>
+  </div>
+
+  <div class="card yellow-bold">
+    <h4>The one thing that matters most</h4>
+    <p>The flagship "agentic" action — fixing credit report errors — largely works by <strong>drafting and sending emails through the user's own Gmail account</strong>. Oolka's own Play Store listing says so.<sup><a href="#" data-goto="p8">3</a></sup> Paying users are noticing: the most upvoted recent reviews say the paid product "only drafts emails" and does little else.<sup><a href="#" data-goto="p8">3</a></sup> In a business built entirely on trust, that expectation gap is the number one thing to fix. Details on the Hidden truths page.</p>
+  </div>
+
+  <div class="card mint">
+    <h4>Why it still deserves attention</h4>
+    <p>Real distribution (6M users in under two years), a real wedge (credit anxiety is universal and underserved in Tier 2/3 India), top-tier backers (Accel, Lightspeed, Z47), and a founder who has scaled consumer products at Meesho. The lending marketplace behind the companion — IDFC First, Yes Bank, AU SFB, InCred, DMI and others — is where the real revenue thesis lives.<sup><a href="#" data-goto="p8">1,3,4</a></sup></p>
+  </div>
+
+  <button class="next-btn" data-goto="p2">Next: the company →</button>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" id="p2">
+  <h2>Company &amp; founder</h2>
+  <p class="lede">Who is behind Oolka, where the money came from, and what the numbers say about the model.</p>
+
+  <h3>The founder</h3>
+  <p>Utkrishta Kumar, IIT Kharagpur graduate, rose to Chief Business Officer at Meesho before founding Oolka in 2024.<sup><a href="#" data-goto="p8">4</a></sup> His stated thesis: e-commerce made buying accessible; the next step is to democratise credit. He named the company after the Sanskrit word for meteor — a wish for financial improvement.<sup><a href="#" data-goto="p8">4</a></sup></p>
+  <blockquote>"It goes beyond advising. It takes actions that help users improve not just credit score, but overall credit health."<span class="who">— Utkrishta Kumar, Inc42, Oct 2025</span></blockquote>
+
+  <h3>Funding</h3>
+  <table>
+    <tr><th>Round</th><th>Amount</th><th>When</th><th>Led by</th></tr>
+    <tr><td>Seed</td><td>$7M</td><td>Sep 2025</td><td>Z47 + Lightspeed, with 8i Ventures and Meesho founder angels<sup><a href="#" data-goto="p8">5,6</a></sup></td></tr>
+    <tr><td>Series A</td><td>$14M (₹130 Cr)</td><td>Apr 2026</td><td>Accel, at ₹730 Cr (~$87.6M) post-money<sup><a href="#" data-goto="p8">1</a></sup></td></tr>
+  </table>
+
+  <h3>The numbers, read honestly</h3>
+  <div class="card gray">
+    <div class="badge-row"><span class="badge est">Estimate</span></div>
+    <p>~$2.5M ARR across 6M registered users works out to roughly <strong>₹35 per registered user per year</strong>. The free credit score tool is customer acquisition; monetisation depends on converting that trust into loan and card distribution, plus a paid repair tier. ARR grew from ~$1M (FY25) to ~$2.5M (Apr 2026) — fast, but off a small base relative to a ₹730 Cr valuation.<sup><a href="#" data-goto="p8">1,4</a></sup></p>
+  </div>
+
+  <h3>What the founder says the business becomes</h3>
+  <blockquote>"In the long run, we see us making a lot of revenue from being a distribution centre for cross-selling different financial products."<span class="who">— Utkrishta Kumar, Inc42, Oct 2025</span></blockquote>
+  <p>Loan and card repayment volume through the app has already crossed ₹100 Cr.<sup><a href="#" data-goto="p8">4</a></sup> A live voice agent and more bank/NBFC onboarding are planned.<sup><a href="#" data-goto="p8">4</a></sup></p>
+
+  <h3>Competitive frame</h3>
+  <table>
+    <tr><th>Player</th><th>Position</th></tr>
+    <tr><td><strong>GoodScore</strong></td><td>Closest direct rival. Same AI-led credit improvement play. Raised $13M Series A led by Peak XV, Oct 2025.<sup><a href="#" data-goto="p8">1</a></sup></td></tr>
+    <tr><td><strong>OneScore</strong></td><td>6 Cr+ users claimed, free score tracking at massive scale. Table stakes for the category.<sup><a href="#" data-goto="p8">7</a></sup></td></tr>
+    <tr><td><strong>CRED / Paisabazaar</strong></td><td>Adjacent giants: score tracking plus distribution, less focused on execution-led repair.<sup><a href="#" data-goto="p8">1</a></sup></td></tr>
+  </table>
+  <p>What is unique to Oolka: the agent takes actions, not just gives advice. What is categorical: free score checks, EMI reminders and loan marketplaces are commodity features everyone has.</p>
+
+  <button class="next-btn" data-goto="p3">Next: what users say →</button>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page" id="p3">
+  <h2>App &amp; users</h2>
+  <p class="lede">The rating says 4.8. The most useful reviews tell a more complicated story.</p>
+
+  <h3>The headline numbers</h3>
+  <p>4.8★ from 32.2K reviews, 50L+ downloads on Play Store (as of July 2026).<sup><a href="#" data-goto="p8">3</a></sup> Independent review analysis shows overall sentiment skews strongly positive, with "cash rewards" as one of the top drivers of positive reviews — users celebrate withdrawing small cashback amounts.<sup><a href="#" data-goto="p8">8</a></sup></p>
+
+  <h3>What the critical reviews cluster around</h3>
+  <div class="card rose">
+    <h4>1. "The score doesn't match CIBIL"</h4>
+    <p>Oolka pulls Experian by default; users compare against CIBIL and conclude the report is "false."<sup><a href="#" data-goto="p8">3</a></sup> This is a product communication failure, not a data failure — and it is generating scam accusations.</p>
+  </div>
+  <div class="card rose">
+    <h4>2. "I paid, and it only drafted emails"</h4>
+    <blockquote>"The part which helps us only drafts the email to the customer service of that overdue account company and nothing else... I paid money to use it and it's completely waste."<span class="who">— Play Store review, 16 May 2026<sup><a href="#" data-goto="p8">3</a></sup></span></blockquote>
+  </div>
+  <div class="card rose">
+    <h4>3. Consent and AI quality complaints</h4>
+    <blockquote>"I never gave auto pay and they added auto pay mandate on the account... its AI keeps switching to Hindi even if I say English, keeps repeating the same things."<span class="who">— Play Store review, 16 Mar 2026, 17 users found helpful<sup><a href="#" data-goto="p8">3</a></sup></span></blockquote>
+    <p>Single-source on the mandate claim, so treat as an allegation — but it is the most upvoted recent review, and the developer reply was boilerplate.</p>
+  </div>
+
+  <div class="callout"><strong>Pattern worth noting:</strong> positive reviews cite rewards and cashback; negative reviews cite trust. The reviews propping up the 4.8 and the reviews other users vote "helpful" are describing two different products.</div>
+
+  <h3>Language reality check</h3>
+  <p>Oolka says it is designed to support nearly 100 regional languages for the next-billion market.<sup><a href="#" data-goto="p8">4</a></sup> Review evidence shows the AI failing to hold even an English/Hindi preference.<sup><a href="#" data-goto="p8">3</a></sup> Worth stress-testing before the planned voice agent launches.</p>
+
+  <button class="next-btn" data-goto="p4">Next: rules &amp; risk →</button>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page" id="p4">
+  <h2>Rules &amp; risk (India)</h2>
+  <p class="lede">Oolka sits at the intersection of four regulatory surfaces. None is fatal today; all get heavier as it scales.</p>
+
+  <div class="card lavender">
+    <h4>1. Credit repair is a regulatory vacuum — for now</h4>
+    <p>Under CICRA 2005, disputing a credit report error directly with a bureau is <strong>free</strong>. Oolka's paid tier sells convenience and follow-through on a right consumers already have at no cost. There is no "credit repair" licence category in India; if RBI or consumer protection authorities ever formalise one (as the US did with CROA), paid repair products get rewritten overnight. <span class="badge est">Inference</span></p>
+  </div>
+  <div class="card lavender">
+    <h4>2. Digital lending guidelines</h4>
+    <p>Distributing loans at 14–36% APR from partner NBFCs makes Oolka a Lending Service Provider under RBI's Digital Lending Guidelines: disclosure, grievance and data rules apply, and its bank partners carry the compliance accountability. Review allegations of auto-pay mandates added without consent<sup><a href="#" data-goto="p8">3</a></sup> — if a pattern — are exactly what an RBI review of a partner bank would surface.</p>
+  </div>
+  <div class="card lavender">
+    <h4>3. Data: DPDP Act + Gmail scope</h4>
+    <p>The app collects location, personal and financial data and may share several types with third parties.<sup><a href="#" data-goto="p8">3</a></sup> It also requests <strong>Gmail send access</strong> to send disputes on the user's behalf<sup><a href="#" data-goto="p8">3</a></sup> — a Google "restricted scope" requiring annual third-party security re-verification. One failed audit or a Google policy shift disables the flagship feature. Oolka claims PII is anonymised before LLM processing.<sup><a href="#" data-goto="p8">4</a></sup></p>
+  </div>
+  <div class="card lavender">
+    <h4>4. Payments</h4>
+    <p>EMI payments run over BBPS via an NPCI-authorised BBPOU partner<sup><a href="#" data-goto="p8">3</a></sup> — the cleanest part of the stack, and a genuine moat for repayment data.</p>
+  </div>
+
+  <button class="next-btn" data-goto="p5">Next: the hidden truths →</button>
+</section>
+
+<!-- PAGE 5 -->
+<section class="page" id="p5">
+  <h2>Hidden truths</h2>
+  <p class="lede">Four findings that don't show up in funding coverage or the top review themes. Each is scored on business impact and evidence confidence.</p>
+
+  <div class="card peach">
+    <div class="badge-row"><span class="badge impact-h">Impact: High</span><span class="badge conf-h">Confidence: High</span><span class="badge verified">Verified · 3 sources</span></div>
+    <h4>1. The "AI agent" runs on the user's own Gmail</h4>
+    <p>The centrepiece agentic action — dispute resolution — works by drafting emails and sending them through the user's Gmail account.<sup><a href="#" data-goto="p8">3,4</a></sup> There is no evidence of direct bureau API integration for disputes. Consequences: paying users feel cheated when they see behind the curtain ("it only drafts emails"<sup><a href="#" data-goto="p8">3</a></sup>), and the whole feature depends on Google's restricted-scope policy. <strong>Metric at stake: paid retention, refund rate, platform risk.</strong></p>
+  </div>
+
+  <div class="card rose">
+    <div class="badge-row"><span class="badge impact-h">Impact: High</span><span class="badge conf-m">Confidence: Medium-High</span><span class="badge verified">Verified · 2 sources</span></div>
+    <h4>2. The 4.8★ is propped up by the rewards loop, and it is masking a paying-user trust problem</h4>
+    <p>Positive review sentiment clusters around cashback withdrawals ("I have withdrawn 480 rupees from this app")<sup><a href="#" data-goto="p8">8</a></sup>, while the reviews other users actually upvote as helpful are recent 1–2 star trust allegations.<sup><a href="#" data-goto="p8">3</a></sup> The store rating is measuring the rewards program, not the credit product. Internal dashboards anchored on it will be blind to the real churn signal. <strong>Metric at stake: paid conversion, CAC payback, brand risk in a trust category.</strong></p>
+  </div>
+
+  <div class="card sky">
+    <div class="badge-row"><span class="badge impact-h">Impact: High</span><span class="badge conf-m">Confidence: Medium</span><span class="badge est">Partly inferred</span></div>
+    <h4>3. The paid tier sells a service that is legally free — with no regulatory moat if that changes</h4>
+    <p>Bureau disputes cost nothing under CICRA 2005. Oolka monetises the follow-through, which is legitimate — but it means the paid product's value collapses if bureaus productise their own dispute UX (CIBIL is already consumer-facing) or if a future rule caps paid credit-repair services. Revenue durability depends on moving monetisation to distribution before that happens. <strong>Metric at stake: revenue mix durability.</strong></p>
+  </div>
+
+  <div class="card mint">
+    <div class="badge-row"><span class="badge impact-m">Impact: Medium</span><span class="badge conf-h">Confidence: High</span><span class="badge verified">Verified · 3 sources</span></div>
+    <h4>4. The narrative is "AI companion"; the operating business is loan distribution — collections included</h4>
+    <p>Oolka is hiring Collection Executives<sup><a href="#" data-goto="p8">9</a></sup>, distributes loans at up to 36% APR<sup><a href="#" data-goto="p8">3</a></sup>, and the founder openly describes the endgame as a cross-sell distribution centre.<sup><a href="#" data-goto="p8">4</a></sup> Nothing wrong with the model — but the further the public story drifts from the revenue engine, the more brittle user trust and bank-partner optics become when the gap surfaces. <strong>Metric at stake: positioning integrity, partner confidence.</strong></p>
+  </div>
+
+  <p class="footnote">A fifth candidate — the auto-pay mandate allegation — did not clear the two-source bar and is flagged on the App &amp; users page as a single-source allegation.</p>
+
+  <button class="next-btn" data-goto="p6">Next: what to do about it →</button>
+</section>
+
+<!-- PAGE 6 -->
+<section class="page" id="p6">
+  <h2>What to do</h2>
+  <p class="lede">Five moves, sized qualitatively. Two are shippable inside a quarter.</p>
+
+  <div class="card mint">
+    <div class="badge-row"><span class="badge qw">Quick win</span></div>
+    <h4>1. Fix the score-mismatch complaint at the source</h4>
+    <p>State "This is your Experian score" at first render, with a one-line explainer on why it differs from CIBIL, and a toggle where multi-bureau data exists. This is the most common trust complaint and costs a sprint to fix. <span class="badge est">Estimate</span> If even 10% of critical reviews stem from this confusion, it is the cheapest rating-repair available.</p>
+  </div>
+  <div class="card mint">
+    <div class="badge-row"><span class="badge qw">Quick win</span></div>
+    <h4>2. Sell the paid tier with an expectation contract</h4>
+    <p>Before payment, show exactly what the agent will do: sample dispute, expected timelines, honest odds. Refund anger comes from surprise, not from the product doing too little. Cuts refunds and the "scam" review vocabulary that poisons conversion.</p>
+  </div>
+  <div class="card sky">
+    <div class="badge-row"><span class="badge struct">Structural</span></div>
+    <h4>3. Replace the Gmail crutch with owned dispute rails</h4>
+    <p>Direct bureau integrations and registered grievance channels instead of sending email from the user's inbox. Removes the Google restricted-scope dependency, and makes "agentic" defensible against GoodScore rather than a demo trick.</p>
+  </div>
+  <div class="card sky">
+    <div class="badge-row"><span class="badge struct">Structural</span></div>
+    <h4>4. Audit consent architecture before the voice agent launches</h4>
+    <p>E-mandate flows, autopay disclosures, DPDP consent records. The bank partnerships are the whole distribution thesis; one adverse RBI/NPCI observation at a partner puts all of them on notice. Voice agents multiply consent ambiguity.</p>
+  </div>
+  <div class="card yellow-bold">
+    <div class="badge-row"><span class="badge struct">Structural</span><span class="badge impact-h">Biggest upside</span></div>
+    <h4>5. Make the secured card the hero credit-builder product</h4>
+    <p>Oolka already lists secured cards from IDFC First, Yes Bank and AU SFB<sup><a href="#" data-goto="p8">3</a></sup> — but as marketplace inventory. A secured card on FD is the one instrument where the score verifiably improves month after month, which is exactly what the paid tier promises and what emails alone cannot deliver. It converts "improve my score" intent into interchange plus FD economics, and gives the agent a real lever to act on.</p>
+  </div>
+
+  <button class="next-btn" data-goto="p7">Next: the pitch →</button>
+</section>
+
+<!-- PAGE 7 -->
+<section class="page" id="p7">
+  <h2>The pitch</h2>
+  <p class="lede">Draft outreach to Utkrishta Kumar, built on truth #1 and opportunity #5. Review before sending — it references review evidence and one inferred framing.</p>
+
+  <div class="pitch-block">Subject: The credit builder already sitting inside Oolka
+
+Hi Utkrishta,
+
+I spent a few evenings inside Oolka and the coverage around it. Two things stood out that the funding stories miss.
+
+First, your most upvoted recent Play Store reviews are from paying users who feel the agent "only drafts emails." The agentic promise is running ahead of the visible actions, and in a trust business that gap converts directly into refund anger.
+
+Second, you already list secured cards from IDFC First, Yes Bank and AU SFB, but they sit as marketplace inventory. A secured card on FD is the one instrument where the score verifiably moves month after month, which is exactly what your paid tier promises. Making it the hero product gives Dhruva a real lever, not just a mailbox.
+
+I lead product at MobiKwik, where I built First Card, a secured RuPay credit card on FD with two bank partners, alongside personal loans and the credit score stack. Happy to share the full teardown or compare notes on a 15 minute call.
+
+Varun Arora
+linkedin.com/in/vrarora1</div>
+
+  <p class="footnote">185 words. LinkedIn DM version: keep paragraphs two and four, cut the rest.</p>
+
+  <button class="next-btn" data-goto="p8">Next: sources →</button>
+</section>
+
+<!-- PAGE 8 -->
+<section class="page" id="p8">
+  <h2>Sources &amp; confidence notes</h2>
+  <p class="lede">Facts marked "Verified" have two or more independent sources. Items marked "Estimate" or "Inference" are reasoned from disclosed data and labelled inline.</p>
+
+  <div class="src-item"><span class="num">1</span> <a href="https://entrackr.com/news/credit-lifecycle-platform-oolka-raises-14-mn-in-series-a-led-by-accel-11780445" target="_blank">Entrackr — Oolka raises $14 Mn Series A led by Accel</a> <span class="d">· 30 Apr 2026 · funding, valuation, users, ARR, partners, competitors</span></div>
+  <div class="src-item"><span class="num">2</span> <a href="https://oolka.in/about-us" target="_blank">Oolka official site — About Us</a> <span class="d">· fetched 16 Jul 2026 · positioning, entity (Sixdis Technologies), "70L+ Indians" claim</span></div>
+  <div class="src-item"><span class="num">3</span> <a href="https://play.google.com/store/apps/details?id=app.oolka.com&hl=en_IN" target="_blank">Google Play listing + reviews — Oolka: AI Credit Score App</a> <span class="d">· fetched 16 Jul 2026 · rating, downloads, Gmail scope disclosure, partner banks, APRs, BBPS, critical reviews of 16 Mar / 3 May / 16 May 2026</span></div>
+  <div class="src-item"><span class="num">4</span> <a href="https://inc42.com/startups/how-oolkas-agentic-ai-drives-up-credit-scores/" target="_blank">Inc42 — How Oolka's Agentic AI Drives Up Credit Scores</a> <span class="d">· Oct 2025 (may be partly stale) · founder background and quotes, Dhruva, FY25 ARR, ₹100 Cr repayments, language claims, PII claims</span></div>
+  <div class="src-item"><span class="num">5</span> <a href="https://www.z47.com/news/oolka-indias-first-agentic-ai-credit-companion-raises-7-million-seed" target="_blank">Z47 — Oolka raises $7M seed</a> <span class="d">· Sep 2025 · seed round composition, angels</span></div>
+  <div class="src-item"><span class="num">6</span> <a href="https://www.outlookbusiness.com/corporate/oolka-raises-usd-7-mn-in-funding-led-by-lightspeed" target="_blank">Outlook Business — Oolka raises $7 Mn led by Lightspeed</a> <span class="d">· Sep 2025</span></div>
+  <div class="src-item"><span class="num">7</span> <a href="https://play.google.com/store/apps/details?id=tech.fplabs.score&hl=en_IN" target="_blank">Google Play — OneScore listing</a> <span class="d">· user-scale claims</span></div>
+  <div class="src-item"><span class="num">8</span> <a href="https://kimola.com/reports/unlock-credit-success-with-oolka-app-comprehensive-feedback-report-google-play-en-gb-155584" target="_blank">Kimola — Oolka Google Play review analysis</a> <span class="d">· data through Jul 2026 · sentiment topics, cash-rewards review cluster</span></div>
+  <div class="src-item"><span class="num">9</span> <a href="https://www.glassdoor.co.in/job-listing/collection-executive-oolka-app-JV_IC2940587_KO0,20_KE21,30.htm?jl=1010154745831" target="_blank">Glassdoor — Oolka App hiring Collection Executive, Bengaluru</a> <span class="d">· careers signal</span></div>
+  <div class="src-item"><span class="num">10</span> <a href="https://tracxn.com/d/companies/oolka/__cLk0iJ_JcBywn5TV5SgPYfI7UPGbRNHbxSYVt3TZhMQ" target="_blank">Tracxn — Oolka company profile</a> <span class="d">· total funding cross-check</span></div>
+  <div class="src-item"><span class="num">11</span> <a href="https://www.z47.com/news/india-ai-fintech-oolka-14m-series-a-z47-backing" target="_blank">Z47 — Series A announcement</a> <span class="d">· Apr 2026 · round confirmation</span></div>
+
+  <h3>Confidence notes</h3>
+  <p>User-count claims vary by surface: 6M registered (Entrackr, Apr 2026), "70L+ Indians" (official site), 50L+ downloads (Play Store). Treated as consistent within rounding but quoted per source. The auto-pay mandate allegation is single-source (one detailed review) and is presented as an allegation, not a finding. Regulatory readings (CICRA, digital lending guidelines, DPDP, Google restricted scopes) are standard-framework analysis applied to Oolka's own disclosures, labelled as inference where they go beyond disclosed facts.</p>
+</section>
+
+</main>
+
+<script>
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector('.tab[data-page="'+id+'"]').classList.add('active');
+  window.scrollTo({top:document.querySelector('nav').offsetTop,behavior:'instant'});
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>goTo(t.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();goTo(el.dataset.goto);}));
+</script>
+</body>
+</html>

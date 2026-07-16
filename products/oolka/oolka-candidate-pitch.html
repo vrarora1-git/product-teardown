@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varun Arora × Oolka — A Product Case</title>
+<style>
+:root{
+  --primary:#5645d4; --primary-pressed:#4534b3; --navy:#0a1530;
+  --orange-deep:#793400; --green:#1aae39;
+  --peach:#ffe8d4; --rose:#fde0ec; --mint:#d9f3e1; --lavender:#e6e0f5; --sky:#dcecfa;
+  --yellow-bold:#f9e79f; --cream:#f8f5e8; --gray:#f0eeec;
+  --canvas:#ffffff; --surface:#f6f5f4; --hairline:#e5e3df; --hairline-strong:#c8c4be;
+  --ink:#1a1a1a; --charcoal:#37352f; --slate:#5d5b54; --steel:#787671; --stone:#a4a097;
+  --on-dark:#ffffff; --on-dark-muted:#a4a097; --purple-800:#391c57;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,system-ui,'Segoe UI',Helvetica,sans-serif;background:var(--canvas);color:var(--charcoal);font-size:16px;line-height:1.55}
+.hero{background:var(--navy);color:var(--on-dark);padding:52px 24px 44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#ff64c8;top:36px;left:10%}
+.hero::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:#f5d75e;top:64px;right:12%}
+.hero-inner{max-width:760px;margin:0 auto}
+.hero .kicker{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--on-dark-muted);margin-bottom:12px}
+.hero h1{font-size:38px;font-weight:600;letter-spacing:-1px;line-height:1.14;margin-bottom:12px}
+.hero .verdict{font-size:18px;line-height:1.5;color:#d4d9e6;max-width:640px}
+.hero .metric-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.metric-chip{display:inline-block;font-size:13px;font-weight:600;border-radius:9999px;padding:5px 14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:#fff}
+.metric-chip b{color:#c9c0ff}
+nav{position:sticky;top:0;background:var(--canvas);border-bottom:1px solid var(--hairline);z-index:50;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-inner{max-width:760px;margin:0 auto;display:flex;gap:4px;padding:10px 16px;white-space:nowrap}
+.tab{font-size:14px;font-weight:500;color:var(--steel);background:transparent;border:1px solid var(--hairline);border-radius:9999px;padding:7px 14px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.tab.active{background:#000;color:#fff;border-color:#000}
+main{max-width:760px;margin:0 auto;padding:36px 20px 80px}
+.page{display:none}
+.page.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2{font-size:28px;font-weight:600;letter-spacing:-.5px;color:var(--ink);margin-bottom:8px}
+h3{font-size:19px;font-weight:600;color:var(--ink);margin:26px 0 10px}
+.lede{font-size:17px;color:var(--slate);margin-bottom:24px}
+p{margin-bottom:13px}
+.card{border-radius:12px;padding:20px 22px;margin-bottom:14px}
+.card.peach{background:var(--peach)} .card.rose{background:var(--rose)} .card.mint{background:var(--mint)}
+.card.lavender{background:var(--lavender)} .card.sky{background:var(--sky)}
+.card.yellow-bold{background:var(--yellow-bold)} .card.gray{background:var(--gray)} .card.cream{background:var(--cream)}
+.card h4{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.card p:last-child{margin-bottom:0}
+.badge{font-size:12px;font-weight:600;border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:8px}
+.badge.phase{background:var(--primary);color:#fff}
+.badge.risk{background:var(--peach);color:var(--orange-deep)}
+.badge.truth{background:var(--lavender);color:var(--purple-800)}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0 22px}
+.stat{background:var(--surface);border-radius:12px;padding:16px 18px}
+.stat .n{font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1.25}
+.stat .l{font-size:13px;color:var(--steel);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0 20px;border:1px solid var(--hairline);border-radius:8px;overflow:hidden}
+th{text-align:left;background:var(--surface);padding:9px 13px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--hairline)}
+td{padding:9px 13px;border-bottom:1px solid var(--hairline);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.callout{background:var(--yellow-bold);border-radius:12px;padding:18px 22px;margin:18px 0;color:var(--charcoal)}
+.callout strong{color:var(--ink)}
+.timeline{border-left:2px solid var(--hairline-strong);margin:8px 0 20px 8px;padding-left:22px}
+.tl-item{position:relative;margin-bottom:22px}
+.tl-item::before{content:'';position:absolute;left:-28px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--primary)}
+.tl-item h4{font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.tl-item p{font-size:15px;color:var(--slate);margin-bottom:6px}
+.tl-item ul{margin:0 0 4px 18px;font-size:15px;color:var(--slate)}
+.tl-item li{margin-bottom:5px}
+.next-btn{display:inline-block;background:var(--primary);color:#fff;font-size:14px;font-weight:500;border:none;border-radius:8px;padding:11px 20px;cursor:pointer;margin-top:22px;font-family:inherit}
+.next-btn:active{background:var(--primary-pressed)}
+.footnote{font-size:13px;color:var(--stone);margin-top:20px}
+.contact-band{background:var(--surface);border-radius:12px;padding:24px 26px;margin-top:24px}
+.contact-band a{color:#0075de;text-decoration:none;font-weight:500}
+@media(max-width:600px){.hero h1{font-size:29px}h2{font-size:24px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">A product case for Oolka · Varun Arora · July 2026</div>
+    <h1>Oolka has won acquisition.<br>The next fight is trust and depth.<br>I have built both.</h1>
+    <p class="verdict">I used the product, read the reviews, and studied the category. This is what I see, and what I would do about it in 90 days. Four short pages.</p>
+    <div class="metric-row">
+      <span class="metric-chip"><b>20K+</b> secured cards · ₹150 Cr FD book</span>
+      <span class="metric-chip"><b>1M → 5M</b> autopay mandates at Paytm</span>
+      <span class="metric-chip"><b>4M MAU</b> credit score, made a revenue line</span>
+    </div>
+  </div>
+</header>
+
+<nav><div class="nav-inner">
+  <button class="tab active" data-page="p1">1 · Summary</button>
+  <button class="tab" data-page="p2">2 · What I see</button>
+  <button class="tab" data-page="p3">3 · 90 day plan</button>
+  <button class="tab" data-page="p4">4 · Track record &amp; ask</button>
+</div></nav>
+
+<main>
+
+<!-- PAGE 1 -->
+<section class="page active" id="p1">
+  <h2>The short version</h2>
+  <p class="lede">6M users in under two years, backed by Accel, Lightspeed and Z47. Acquisition is solved. What decides the next two years is whether paying users trust what the agent does, and whether credit intent converts into credit products. That is the exact work I have done, three times, in this market.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="n">First Card, built from zero</div><div class="l">India's FD backed RuPay credit card. Two bank partnerships, 20K+ cards in a year, ₹150 Cr+ FD book, ~80% transaction active where secured cards typically stall at 50%</div></div>
+    <div class="stat"><div class="n">Credit score, monetised</div><div class="l">Grew a free score feature to ~4M MAU and turned it into a revenue line: AI advisory, pre denial analysis, goal anchored plans, branded PDF reports</div></div>
+    <div class="stat"><div class="n">Autopay, at scale</div><div class="l">Scaled Paytm subscriptions and bill payments from 1M to 5M active mandates, and cut card bill settlement from 6 hours to 5 minutes</div></div>
+  </div>
+
+  <div class="card yellow-bold">
+    <h4>Why me, in one paragraph</h4>
+    <p>Oolka's next phase needs three things at once: a trust layer users can verify, repayment and autopay rails that never misfire, and a credit builder that moves scores in ways advice cannot. I have shipped all three, at scale, for the same Tier 2/3 user Oolka serves. This is not a list of ideas. It is a list of things I have already operated.</p>
+  </div>
+
+  <button class="next-btn" data-goto="p2">Next: what I see →</button>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" id="p2">
+  <h2>What I see from the outside</h2>
+  <p class="lede">Shared as a user of the product and a builder in the same space. If I have any of this wrong from the outside, that is part of what a first conversation is for.</p>
+
+  <h3>What users are talking about</h3>
+  <div class="card rose">
+    <p>The 4.8 rating is real, but it is powered by the cashback loop. The reviews other users upvote as helpful say something else: paying users who expected an agent and got an email drafter, and users confused when the score shown does not match CIBIL. <strong>The rating measures the rewards program. The upvoted reviews measure the product.</strong></p>
+  </div>
+
+  <h3>What I saw using the product</h3>
+  <div class="card peach">
+    <span class="badge risk">Three moments that break trust</span>
+    <p><strong>A payment demand on a closed loan.</strong> A WhatsApp message asking for ₹10,712 on a loan already fully paid, with a Pay Now button and a payment guarantee attached. One false demand like this undoes months of earned trust.</p>
+    <p><strong>A payment screen with no way to pay.</strong> A countdown timer running with zero payment methods loaded and no retry or help path. Urgency with no action is the worst version of a critical path.</p>
+    <p><strong>Good advice with no next step.</strong> A utilization alert that was accurate and personal, but sent on WhatsApp with no explanation of why it matters and no link to act. Right idea, wrong surface, no follow through.</p>
+  </div>
+
+  <h3>The hidden truth</h3>
+  <div class="card lavender">
+    <span class="badge truth">The gap and the asset, in one line</span>
+    <p><strong>Today Oolka is a notification product wearing an agent's badge.</strong> The fix is already on the shelf: secured cards from IDFC First, Yes Bank and AU sit in the marketplace as inventory. A secured card is the one instrument where the score verifiably moves month after month, which is exactly what the paid tier promises and what notifications alone cannot deliver. Nudges get dismissed. Products get used.</p>
+  </div>
+
+  <div class="callout"><strong>The pattern:</strong> every issue above is the same issue. Advice fires without validation, urgency fires without an action path, and the agent promises more than the rails beneath it can do. The answer is to build the rails. That is page 3.</div>
+
+  <button class="next-btn" data-goto="p3">Next: the 90 day plan →</button>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page" id="p3">
+  <h2>My first 90 days</h2>
+  <p class="lede">Trust first, then the repayment spine, then the products that move scores. Each phase ships and each one measurably moves a number.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <span class="badge phase">Days 0 to 30 · Trust</span>
+      <h4>Make every touch verifiable</h4>
+      <ul>
+        <li><strong>Consent vault:</strong> every permission captured with a 6 month validity, visible in one screen, with a one tap option to disable. Users should never wonder what they agreed to.</li>
+        <li><strong>Autopay done right:</strong> explicit mandate setup, pre debit notification, easy pause. This directly answers the mandate complaints in reviews. I scaled 1M to 5M mandates at Paytm; trust is what made that curve possible.</li>
+        <li><strong>Alerts that validate before they fire:</strong> account status check as step zero, so a closed loan never gets a payment demand. Every alert carries the why and a one tap action.</li>
+        <li><strong>Downloadable branded report:</strong> improvement notes included, shareable with lenders. Tangible proof of progress that users can hold.</li>
+        <li>Plus the score clarity fix: name the bureau on screen and explain why it differs from CIBIL.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <span class="badge phase">Days 31 to 60 · The repayment spine</span>
+      <h4>One screen for everything owed</h4>
+      <ul>
+        <li><strong>Repayment dashboard:</strong> every loan, card, due date and minimum due in one view, built on bureau plus Account Aggregator signals, paid through the BBPS rails Oolka already has.</li>
+        <li><strong>Payment prioritisation:</strong> when cash is tight, tell the user what to pay first and why. This is the screen users open weekly, and it ends repaying blind across five apps.</li>
+        <li><strong>Dispute resolution with a closed loop:</strong> in app status tracking until the bureau resolves, human escalation for hard cases. The loop after filing is where users decide you are real.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <span class="badge phase">Days 61 to 90 · Products that move scores</span>
+      <h4>Credit builder as the hero, score as the key</h4>
+      <ul>
+        <li><strong>Secured card as the credit builder:</strong> route new to credit and subprime users into the cards already on the platform, with guided milestones and monthly bureau reporting. I took this exact product from term sheet to 20K+ cards and an 80% active rate.</li>
+        <li><strong>What your score unlocks:</strong> for stronger scores, turn the number into offers, upgrades and rates. Distribution stops being a banner and becomes the natural next step.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>One base, four different users</h3>
+  <p>A thin file user and a 750 user need different products, different nudges and different reasons to pay. Treating them as one audience wastes the base.</p>
+  <table>
+    <tr><th>Segment</th><th>What they need most</th><th>What converts them</th></tr>
+    <tr><td><strong>New to credit / thin file</strong></td><td>First score reveal, education, a real first step</td><td>Credit builder via secured card, simulator showing how the score builds</td></tr>
+    <tr><td><strong>Subprime (300 to 500)</strong></td><td>Repair: overdue detection, dispute help, multi bureau compare to catch reporting gaps</td><td>Step by step repair plan, in app repayment of overdues, score boost rewards</td></tr>
+    <tr><td><strong>Mid (500 to 700)</strong></td><td>Progress tracking, EMI habit loop, fixing errors that block upgrades</td><td>Personal loan and balance transfer offers at peak intent</td></tr>
+    <tr><td><strong>Prime (700+)</strong></td><td>Multi bureau view before high ticket applications, report for negotiation</td><td>Pre approved offers, premium card guidance. Values convenience over freebies</td></tr>
+  </table>
+  <p class="footnote">Free tier stays the hook: score, repayment, rewards, credit builder, offers. The paid tier earns its price with the depth features: multi bureau, simulator, coach, alerts, EMI tracking, disputes.</p>
+
+  <button class="next-btn" data-goto="p4">Next: track record &amp; the ask →</button>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page" id="p4">
+  <h2>Track record, then the ask</h2>
+  <p class="lede">12+ years across Paytm, Groww and MobiKwik, building lending, credit and payments for the same user Oolka serves.</p>
+
+  <table>
+    <tr><th>What I built</th><th>The numbers</th></tr>
+    <tr><td><strong>First Card</strong> · India's FD backed RuPay credit card, owned end to end</td><td>Two bank partnerships signed and integrated. 20,000+ cards in a year, ₹150 Cr+ cumulative FD book, peak month of ₹20 Cr FD and 2,700+ cards. ~80% transaction active rate where secured cards typically stall near 50%</td></tr>
+    <tr><td><strong>Credit score</strong> · from free feature to revenue line</td><td>~4M MAU. AI advisory layer with pre denial analysis, goal anchored score plans and branded PDF reports, feeding pre qualified lending demand</td></tr>
+    <tr><td><strong>Lending</strong> · ZIP BNPL to personal loans</td><td>8L+ BNPL users, ₹600 Cr+ monthly spend throughput. Grew PL monthly disbursals from ₹100 Cr to ₹350 Cr</td></tr>
+    <tr><td><strong>Autopay and bills</strong> · Paytm subscriptions platform</td><td>1M to 5M active mandates. Card bill settlement cut from 6 hours to 5 minutes</td></tr>
+    <tr><td><strong>Payments trust</strong> · Groww UPI from proof of concept</td><td>0 to 5M users in a year with zero TPV failures on in house payments</td></tr>
+  </table>
+
+  <div class="card sky">
+    <h4>The through-line</h4>
+    <p>Score brings the user in. Trust keeps them. The repayment spine makes the app a weekly habit. The credit builder moves the number for real, and distribution monetises the moment it moves. Each layer feeds the next, and the data moat deepens every month. Competitors sell a thermometer. Oolka should sell the treatment.</p>
+  </div>
+
+  <h3>The ask</h3>
+  <div class="card cream">
+    <p>A conversation about leading product for the credit portfolio. I will bring the full teardown behind this case, detailed specs for the 90 day plan, and honest answers about what I got wrong from the outside. 30 minutes and you will know whether this is a fit.</p>
+  </div>
+
+  <div class="contact-band">
+    <p style="margin-bottom:6px"><strong>Varun Arora</strong> · Associate Director, Product · MobiKwik</p>
+    <p style="margin-bottom:0">Secured cards · Credit score · Lending · Payments · Tier 2/3 India<br>
+    <a href="https://linkedin.com/in/vrarora1" target="_blank">linkedin.com/in/vrarora1</a> · +91 9015385396 · vr.arora1@gmail.com</p>
+  </div>
+
+  <p class="footnote">Product observations are from my own use of the app and public sources as of July 2026. No confidential information from any employer is used in this document.</p>
+</section>
+
+</main>
+
+<script>
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector('.tab[data-page="'+id+'"]').classList.add('active');
+  window.scrollTo({top:document.querySelector('nav').offsetTop,behavior:'instant'});
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>goTo(t.dataset.page)));
+document.querySelectorAll('[data-goto]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();goTo(el.dataset.goto);}));
+</script>
+</body>
+</html>
