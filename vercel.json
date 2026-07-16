@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/goodscore", "destination": "/products/goodscore/index.html" },
+    { "source": "/oolka", "destination": "/products/oolka/oolka-candidate-pitch.html" }
+  ]
+}
